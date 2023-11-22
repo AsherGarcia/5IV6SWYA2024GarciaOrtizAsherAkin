@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cesar</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Cifrado Cesar con JS</h1>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="texto">Elija la funcion</label>
+                        <br>
+                        <button id="cifrar"> Cifrar</button>
+                        <button id="descifrar">Descifrar</button>
+                        <input id="oculto" type="hidden" value="cifrar">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="texto">Texto</label>
+                        <textarea name="texto" type="text" id="texto" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="desplazamiento">Desplazamiento</label>
+                        <input type="text" name="desplazamiento" id="desplazamiento" value="1" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="cifrado">Texto Cifrado</label>
+                        <textarea name="cifrado" id="cifrado" class="form-control" disabled="disabled"></textarea>
+                    </div>
+                </div>
+            </div>
+            <button id="regresar">Regresar</button>
+        </div>
+        <script src="./js/cesar.js"></script>
+    </body>
+</html>
