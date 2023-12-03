@@ -32,7 +32,7 @@ public class Descifrador extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(texto);
 
-        cancelar.setText("Cancelar");
+        cancelar.setText("Regresar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarActionPerformed(evt);
@@ -99,28 +99,44 @@ public class Descifrador extends javax.swing.JFrame {
         String[] cont = cifrado.split("\n");
         
         String firma = "", mensaje = "";
-        
+        int o = 0;
         for(String s : cont){
             if(s.indexOf("Firma: ") != -1){
-                firma = s.trim().replace("Firma: ", "");
+                o = 1;
             }            
-            if(s.indexOf("Texto: ") != -1){
-                mensaje = s.trim().replace("Texto: ", "");
+            else if(s.indexOf("Texto: ") != -1){
+                o = 2;
+            }
+            
+            if(o == 1){
+                firma += s.trim().replace("Firma: ", "")+"\n";
+            }
+            
+            else if(o == 2){
+                if(!s.trim().equals(""))
+                   mensaje += s.trim().replace("Texto: ", "")+"\n";
             }
         }
         
         try{
-            String descifrado = Descifrar.descifrar(firma);            
-            if(descifrado.equals(mensaje)){                
-                texto.setText("Mensaje Descifrado: "+descifrado);
+            String descifrado = Descifrar.descifrar(firma);  
+            if(descifrado.trim().replace("\r\n", "").replace("\n", "").equals(mensaje.trim().replace("\r\n", "").replace("\n", ""))){
+                JOptionPane.showMessageDialog(null, "El mensaje original NO ha sido cambiado");                
+                texto.setText("Mensaje Descifrado: \n"+descifrado);
             }
             else{                
-                texto.setText("Mensaje Original: "+mensaje+"\nMensaje Descifrado: "+descifrado);
+                texto.setText("Mensaje Obtenido del Archivo: \n"+mensaje+"\nMensaje Original: \n"+descifrado);
                 JOptionPane.showMessageDialog(null, "El mensaje original ha sido cambiado, se muestran aqui ambas versiones del mensaje");
             }
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            if(e.getMessage().indexOf("out of bounds for length") != -1 && e.getMessage().indexOf("Index") != -1){
+                JOptionPane.showMessageDialog(null, "Incapaz de realizar la peticion por modificacion incorrecta de firma");                
+            }
+            else if(e.getMessage().indexOf("No installed provider supports this key: (null)") != -1){
+                JOptionPane.showMessageDialog(null, "No hay una clave publica para descifrar el mensaje");                
+            }
+            System.out.println(e.getMessage());
         }
     }
 
