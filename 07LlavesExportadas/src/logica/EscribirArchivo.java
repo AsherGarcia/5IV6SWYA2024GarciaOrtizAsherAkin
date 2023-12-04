@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class EscribirArchivo {
-    public static void generarArchivo(String contenido){
+    public static void generarArchivo(String contenido) throws Exception{
         String rutaArchivo = "documento.txt";
 
         File archivo = new File(rutaArchivo);
@@ -16,12 +16,15 @@ public class EscribirArchivo {
         {
             escritor.write(contenido.replace("\n","\r\n"));
         } 
-        catch (IOException e) {
+        catch(FileNotFoundException ed){
+            ed.printStackTrace();            
+        }
+        catch (IOException  e) {
             e.printStackTrace();
         }
     }
     
-    public static String leerArchivo(){
+    public static String leerArchivo() throws Exception{
         String rutaArchivo = "documento.txt";
 
         File archivo = new File(rutaArchivo);

@@ -94,31 +94,31 @@ public class Descifrador extends javax.swing.JFrame {
     }
     
     public void descifrar(){
-        String cifrado = EscribirArchivo.leerArchivo();
-        
-        String[] cont = cifrado.split("\n");
-        
-        String firma = "", mensaje = "";
-        int o = 0;
-        for(String s : cont){
-            if(s.indexOf("Firma: ") != -1){
-                o = 1;
-            }            
-            else if(s.indexOf("Texto: ") != -1){
-                o = 2;
-            }
-            
-            if(o == 1){
-                firma += s.trim().replace("Firma: ", "")+"\n";
-            }
-            
-            else if(o == 2){
-                if(!s.trim().equals(""))
-                   mensaje += s.trim().replace("Texto: ", "")+"\n";
-            }
-        }
-        
         try{
+            String cifrado = EscribirArchivo.leerArchivo();
+
+            String[] cont = cifrado.split("\n");
+
+            String firma = "", mensaje = "";
+            int o = 0;
+            for(String s : cont){
+                if(s.indexOf("Firma: ") != -1){
+                    o = 1;
+                }            
+                else if(s.indexOf("Texto: ") != -1){
+                    o = 2;
+                }
+
+                if(o == 1){
+                    firma += s.trim().replace("Firma: ", "")+"\n";
+                }
+
+                else if(o == 2){
+                    if(!s.trim().equals(""))
+                       mensaje += s.trim().replace("Texto: ", "")+"\n";
+                }
+            }
+        
             String descifrado = Descifrar.descifrar(firma);  
             if(descifrado.trim().replace("\r\n", "").replace("\n", "").equals(mensaje.trim().replace("\r\n", "").replace("\n", ""))){
                 JOptionPane.showMessageDialog(null, "El mensaje original NO ha sido cambiado");                
@@ -135,6 +135,13 @@ public class Descifrador extends javax.swing.JFrame {
             }
             else if(e.getMessage().indexOf("No installed provider supports this key: (null)") != -1){
                 JOptionPane.showMessageDialog(null, "No hay una clave publica para descifrar el mensaje");                
+            }
+            else if(e.getMessage().indexOf("Decryption error") != -1){
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, "No se encontro el archivo a descifrar");                
+            }
+            else{
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
             System.out.println(e.getMessage());
         }
